@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AutoMove : MonoBehaviour
 {
-    enum RepeatType { noRepeat, RepeatBomerang, normalRepeat};
+    enum RepeatType { noRepeat, RepeatBomerang, normalRepeat };
     GameObject player;
     [SerializeField] float speed;
     [SerializeField] Vector3 direction;
@@ -35,7 +35,7 @@ public class AutoMove : MonoBehaviour
         else if (repeatType == RepeatType.normalRepeat)
             Invoke("Repeat", time);
     }
-    
+
     void Stop()
     {
         enabled = false;
@@ -55,13 +55,10 @@ public class AutoMove : MonoBehaviour
     }
 
 
-
-
-    // Update is called once per frame
     void Update()
     {
-        if(started && Vector3.Distance(player.transform.position,transform.position) <= maxDistance)
-           transform.Translate(direction*speed*Time.deltaTime);           
+        if (started && Vector3.Distance(player.transform.position, transform.position) <= maxDistance)
+            transform.Translate(direction * speed * Time.deltaTime);
     }
 }
 

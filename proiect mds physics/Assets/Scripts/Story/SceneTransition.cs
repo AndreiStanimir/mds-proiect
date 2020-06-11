@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -11,7 +9,7 @@ public class SceneTransition : MonoBehaviour
     [SerializeField] float speed;
 
     string messageScreen;
-    enum TransitioningPhases { off, transitioningPanel, transitioningTextAppearing};
+    enum TransitioningPhases { off, transitioningPanel, transitioningTextAppearing };
 
     TransitioningPhases transitioningPhase;
 
@@ -30,19 +28,19 @@ public class SceneTransition : MonoBehaviour
 
             panel.GetComponent<Image>().color = new Color(0, 0, 0, alfa);
             alfa += Time.deltaTime * speed;
-            if(alfa >= 1)
+            if (alfa >= 1)
             {
                 transitioningPhase = TransitioningPhases.transitioningTextAppearing;
                 alfa = 0;
                 panel.transform.GetChild(0).GetComponent<Text>().text = messageScreen;
             }
-            
+
         }
-        else if(transitioningPhase == TransitioningPhases.transitioningTextAppearing)
+        else if (transitioningPhase == TransitioningPhases.transitioningTextAppearing)
         {
             panel.transform.GetChild(0).GetComponent<Text>().color = new Color(1, 1, 1, alfa);
             alfa += Time.deltaTime * speed;
-            
+
         }
 
     }
@@ -57,7 +55,7 @@ public class SceneTransition : MonoBehaviour
     void LaunchNextScene()
     {
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }

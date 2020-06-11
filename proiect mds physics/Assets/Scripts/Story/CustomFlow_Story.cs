@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CustomFlow_Story : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class CustomFlow_Story : MonoBehaviour
         player = GameObject.Find("Player");
         friend = GameObject.Find("Friend");
         Invoke("InteractLater", 1.5f);
-        
+
     }
 
     void InteractLater()
@@ -34,14 +32,14 @@ public class CustomFlow_Story : MonoBehaviour
         print(animationBlendSpeed);
         if ((Vector3.Distance(player.transform.position, friend.transform.position) < 4) && (friend.transform.position.x > -75) && friend.GetComponent<Dialog>().currentString >= 4)
         {
-            friend.transform.Translate(new Vector3(0, 0, 3f) * Time.deltaTime);
+            friend.transform.Translate(new Vector3(0, 0, 3f) * Time.fixedDeltaTime);
             animationBlendSpeed += 0.1f;
         }
         else
             animationBlendSpeed -= 0.15f;
 
 
-        
+
         if (friend.GetComponent<Dialog>().currentString == 4)
         {
             if (friend.transform.eulerAngles.y > 270)
@@ -57,7 +55,7 @@ public class CustomFlow_Story : MonoBehaviour
             }
 
         }
-        if ((Vector3.Distance(player.transform.position, friend.transform.position) < 5) && !ceva && !over) 
+        if ((Vector3.Distance(player.transform.position, friend.transform.position) < 5) && !ceva && !over)
         {
             ceva = true;
             friend.GetComponent<Dialog>().Interact();
@@ -71,16 +69,16 @@ public class CustomFlow_Story : MonoBehaviour
         }
         if (over)
         {
-            if(!screenDown)
+            if (!screenDown)
             {
                 screenDown = true;
-                GameObject.FindObjectOfType<SceneTransition>().FadeIn(endMessage,1);
+                GameObject.FindObjectOfType<SceneTransition>().FadeIn(endMessage, 1);
                 friend.transform.rotation = Quaternion.Euler(0, 90f, 0);
 
             }
             animationBlendSpeed += 0.01f;
 
-            friend.transform.Translate(new Vector3(0, 0, 0f) * Time.deltaTime);
+            friend.transform.Translate(new Vector3(0, 0, 0f) * Time.fixedDeltaTime);
         }
         animationBlendSpeed = Mathf.Clamp(animationBlendSpeed, 0, 1);
 

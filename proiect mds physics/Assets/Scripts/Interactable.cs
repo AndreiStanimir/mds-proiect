@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
@@ -18,28 +16,28 @@ public class Interactable : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
-            
+
             if (Input.GetKeyDown(KeyCode.F))
             {
                 BroadcastMessage("Interact");
             }
-            
+
         }
-       
+
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
             interactAvaibleMessage.SetActive(true);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
             interactAvaibleMessage.SetActive(false);
 
     }

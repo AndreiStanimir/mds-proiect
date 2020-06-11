@@ -18,11 +18,11 @@ public class Pistol : MonoBehaviour
     AudioSource pistolShot;
     AudioSource pistolDrop;
     public static AudioSource pistolPickup;
-    
+
     void Start()
     {
         particleShoot = transform.GetChild(transform.childCount - 1).GetComponent<ParticleSystem>();
-		AudioSource[] audioSources = GetComponents<AudioSource>();
+        AudioSource[] audioSources = GetComponents<AudioSource>();
         pistolShot = audioSources[0];
         pistolDrop = audioSources[1];
         pistolPickup = audioSources[2];
@@ -30,9 +30,9 @@ public class Pistol : MonoBehaviour
 
     void Update()
     {
-        shooting();
+        Shooting();
         Recoil();
-        throwingWeapon();
+        ThrowingWeapon();
     }
 
     private void Recoil()
@@ -48,7 +48,7 @@ public class Pistol : MonoBehaviour
         recoilVar /= 1.1f;
     }
 
-    public void shooting()
+    public void Shooting()
     {
         if (!isAutomatic)
         {
@@ -78,17 +78,17 @@ public class Pistol : MonoBehaviour
 
 
         spawned.GetComponent<Rigidbody>().velocity += (transform.parent.transform.forward - 0.01f * transform.parent.transform.right
-                                                        + 0.01f * transform.parent.transform.up) * speed + Vector3.right*Random.Range(-10f,10f) + Vector3.up * Random.Range(-8f,8f);
+                                                        + 0.01f * transform.parent.transform.up) * speed + Vector3.right * Random.Range(-10f, 10f) + Vector3.up * Random.Range(-8f, 8f);
 
         timeAfterShot = Time.time;
     }
 
-    public void throwingWeapon()
+    public void ThrowingWeapon()
     {
         if (Input.GetKeyDown(KeyCode.Q) && gameObject.transform.parent != null)
         {
             gameObject.transform.parent = null;
-            gameObject.AddComponent<Rigidbody>(); 
+            gameObject.AddComponent<Rigidbody>();
             GetComponent<Rigidbody>().mass = 0.05f;
             gameObject.GetComponent<Rigidbody>().velocity += transform.forward * 30;
             float rand = Random.Range(10, 40);
@@ -97,14 +97,14 @@ public class Pistol : MonoBehaviour
 
         if (gameObject.transform.parent == null && gameObject.GetComponent<Rigidbody>() == null)
         {
-            gameObject.AddComponent<Rigidbody>(); 
-        } 
+            gameObject.AddComponent<Rigidbody>();
+        }
     }
 
-    void OnCollisionEnter (Collision collision)
-	{
-    
+    void OnCollisionEnter(Collision collision)
+    {
+
         if (transform.parent != null)
-		    pistolDrop.Play(0);
-	}
+            pistolDrop.Play(0);
+    }
 }

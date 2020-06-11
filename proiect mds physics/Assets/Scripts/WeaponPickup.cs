@@ -22,11 +22,11 @@ public class WeaponPickup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        weaponPickup(pistol, pistolPos, pistolRot);
-        weaponPickup(ak, akPos, akRot);
+        PickUpWeapon(pistol, pistolPos, pistolRot);
+        PickUpWeapon(ak, akPos, akRot);
     }
 
-    void weaponPickup(GameObject x, Vector3 pos, Vector3 rot)
+    void PickUpWeapon(GameObject x, Vector3 pos, Vector3 rot)
     {
         //  print(transform.GetChild(0).childCount);
         if (Vector3.Distance (transform.position, x.transform.position) < 10 && Input.GetKeyDown(KeyCode.E) && transform.GetChild(0).childCount == 1) 

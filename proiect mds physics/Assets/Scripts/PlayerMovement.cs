@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     bool isGrounded;
 
-    
+
     void Start()
     {
         cc = GetComponent<CharacterController>();
@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
-        if (isGrounded && velocity.y <0)
+        if (isGrounded && velocity.y < 0)
             velocity.y = -5;
         if (Input.GetButtonDown("Jump") && isGrounded)
         {

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Dialog : MonoBehaviour
 {
-    
+
     [SerializeField] string title;
     [SerializeField] string[] sentences;
     [SerializeField] float speed;
@@ -24,13 +21,13 @@ public class Dialog : MonoBehaviour
     private int currentLetter = 0;
     private Text text;
 
-    enum states { writing, ready, off, };
-    states state;
+    enum States { writing, ready, off, };
+    States state;
 
     private void Start()
     {
         player = GameObject.Find("Player");
-        state = states.off;
+        state = States.off;
         dialogPanel = GameObject.Find("Canvas").transform.GetChild(0).gameObject;
         text = dialogPanel.transform.GetChild(0).GetComponent<Text>();
         for (int x = 0; x < sentences.Length; x++)
@@ -44,7 +41,7 @@ public class Dialog : MonoBehaviour
         dialogPanel.transform.GetChild(1).GetComponent<Text>().text = title;
         text.text = "";
         InvokeRepeating("PrintLetter", 0.01f, speed);
-        state = states.writing;
+        state = States.writing;
         text.font = font;
         audioSource = dialogPanel.transform.GetComponent<AudioSource>();
 
@@ -61,7 +58,7 @@ public class Dialog : MonoBehaviour
                 currentString = 0;
             }
 
-            if (state == states.off)
+            if (state == States.off)
                 ResumeDialog();
         }
         ceva2 = true;
@@ -72,7 +69,7 @@ public class Dialog : MonoBehaviour
     public void Stop()
     {
         CancelInvoke("PrintLetter");
-        state = states.off;
+        state = States.off;
         dialogPanel.SetActive(false);
         text.text = "";
         currentLetter = 0;
@@ -84,7 +81,7 @@ public class Dialog : MonoBehaviour
     {
         CancelInvoke("PrintLetter");
 
-        state = states.off;
+        state = States.off;
         dialogPanel.SetActive(false);
         text.text = "";
         currentLetter = 0;
@@ -93,9 +90,9 @@ public class Dialog : MonoBehaviour
 
     private void Update()
     {
-        if (state != states.off)
+        if (state != States.off)
         {
-            if (state == states.ready && Input.GetKeyDown(KeyCode.F))
+            if (state == States.ready && Input.GetKeyDown(KeyCode.F))
             {
                 ceva = false;
                 currentString++;
@@ -105,11 +102,11 @@ public class Dialog : MonoBehaviour
                 {
                     text.text = "";
                     InvokeRepeating("PrintLetter", 0.01f, speed);
-                    state = states.writing;
+                    state = States.writing;
                 }
             }
 
-            else if (state == states.writing && Input.GetKeyDown(KeyCode.F) && !ceva)
+            else if (state == States.writing && Input.GetKeyDown(KeyCode.F) && !ceva)
             {
                 CompleteSentence();
                 currentLetter = 0;
@@ -120,7 +117,7 @@ public class Dialog : MonoBehaviour
 
 
         }
-        if(ceva2)
+        if (ceva2)
             if ((Vector3.Distance(player.transform.position, transform.position) > 4))
             {
                 Pause();
@@ -128,20 +125,20 @@ public class Dialog : MonoBehaviour
             }
     }
 
-    
+
 
 
 
     void PrintLetter()
     {
 
-        if (currentString < sentences.Length &&  currentLetter < sentences[currentString].Length)
+        if (currentString < sentences.Length && currentLetter < sentences[currentString].Length)
         {
             for (int x = 0; x < letterDebit; x++)
             {
                 if (currentLetter < sentences[currentString].Length)
                 {
-                   
+
                     text.text += sentences[currentString][currentLetter];
                     currentLetter++;
 
@@ -151,27 +148,27 @@ public class Dialog : MonoBehaviour
 
 
 
-            
 
 
-            audioSource.pitch = UnityEngine.Random.RandomRange(0.9f, 1.1f);
+
+            audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
             audioSource.PlayOneShot(sound);
         }
         if (currentLetter == sentences[currentString].Length)
         {
-            state = states.ready;
+            state = States.ready;
             CancelInvoke("PrintLetter");
             currentLetter = 0;
         }
 
-        
+
 
     }
 
     void CompleteSentence()
     {
         dialogPanel.transform.GetChild(0).GetComponent<Text>().text = sentences[currentString];
-        state = states.ready;
+        state = States.ready;
     }
 
 

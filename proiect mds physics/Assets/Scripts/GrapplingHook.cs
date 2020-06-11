@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class GrapplingHook : MonoBehaviour {
+public class GrapplingHook : MonoBehaviour
+{
 
-    [SerializeField]Camera cam;
-    [SerializeField]Material mat;
+    [SerializeField] Camera cam;
+    [SerializeField] Material mat;
     Rigidbody rb;
     RaycastHit grapplePoint;
     RaycastHit grapplePoint2;
@@ -15,12 +14,14 @@ public class GrapplingHook : MonoBehaviour {
     public float grappleDist = 100f;
     public GameObject hookPoint;
 
-    void Start () {
+    void Start()
+    {
         // Get Camera and Rigidbody
         rb = GetComponent<Rigidbody>();
     }
-    
-    void Update () {
+
+    void Update()
+    {
         // ray from camera into the scene
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
@@ -28,7 +29,7 @@ public class GrapplingHook : MonoBehaviour {
 
         // the hook point
         if (Physics.Raycast(ray, out grapplePoint2) && Vector3.Distance(transform.position, grapplePoint2.point) < grappleDist && !isGrappling
-            && grapplePoint2.collider.tag == "grapple")
+            && grapplePoint2.collider.CompareTag("grapple"))
         {
             hookPoint.SetActive(true);
             if (!isGrappling)
@@ -39,13 +40,13 @@ public class GrapplingHook : MonoBehaviour {
 
         // Check if a button is pressed and if the Raycast hits something and if it's a good distance
         if (Input.GetMouseButtonDown(1) && Physics.Raycast(ray, out grapplePoint) && Vector3.Distance(transform.position, grapplePoint.point) < grappleDist
-            && grapplePoint2.collider.tag == "grapple")
+            && grapplePoint2.collider.CompareTag("grapple"))
         {
             PlayerNewMovement.hookSound.Play(0);
             Vector3 grappleDirection = grapplePoint.point - transform.position;
             isGrappling = true;
         }
-        
+
 
         //turn grappling mode off when the button is released
         if (Input.GetMouseButtonUp(1))
@@ -59,7 +60,7 @@ public class GrapplingHook : MonoBehaviour {
 
             //Get Vector between player and grappling point
             Vector3 grappleDirection = grapplePoint.point - transform.position;
-            DrawLine (transform.position, grapplePoint.point);
+            DrawLine(transform.position, grapplePoint.point);
 
 
             if (distance < grappleDirection.magnitude)
@@ -91,7 +92,8 @@ public class GrapplingHook : MonoBehaviour {
         myLine.AddComponent<LineRenderer>();
         LineRenderer lr = myLine.GetComponent<LineRenderer>();
         lr.material = mat;
-        lr.SetWidth(0.1f, 0.1f);
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
         GameObject.Destroy(myLine, duration);

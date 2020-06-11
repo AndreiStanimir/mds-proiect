@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraMouse : MonoBehaviour
 {
@@ -10,8 +8,8 @@ public class CameraMouse : MonoBehaviour
     public float cameraShake;
     public float wallRunTilt = 0;
     public GameObject weapon;
-    float deltaRotationX = 0f;
-    float deltaRotationY = 0f;
+    //readonly float deltaRotationX = 0f;
+    //readonly float deltaRotationY = 0f;
     float mouseX, mouseY;
     float schema = 0;
 
@@ -25,8 +23,8 @@ public class CameraMouse : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
-        mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
+        mouseX = Input.GetAxis("Mouse X") * sensitivity * Time.fixedDeltaTime;
+        mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime;
 
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
@@ -36,7 +34,7 @@ public class CameraMouse : MonoBehaviour
 
         RotateWithMouseWeapon();
         WeaponMove();
-        
+
     }
 
     void RotateWithMouseWeapon()
@@ -44,7 +42,7 @@ public class CameraMouse : MonoBehaviour
         if (transform.childCount != 0)
         {
             weapon = transform.GetChild(0).gameObject;
-        
+
             if (weapon.name == "AKau")
             {
                 weapon.transform.localRotation = Quaternion.Euler(WeaponPickup.akRot.x + mouseY / 3, WeaponPickup.akRot.y, WeaponPickup.akRot.z + mouseX / 4);
@@ -62,7 +60,7 @@ public class CameraMouse : MonoBehaviour
         {
             weapon = transform.GetChild(0).gameObject;
 
-            if((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Space)) && schema <= 0)
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Space)) && schema <= 0)
             {
                 schema = 0.02f;
             }

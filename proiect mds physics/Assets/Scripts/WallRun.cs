@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WallRun : MonoBehaviour
 {
     [SerializeField] float suckPower = 35;
-	Rigidbody Player;
+    Rigidbody Player;
     public float timeToWallRun = 1f;
     public float forwardBoost = 150f;
     public float upwardBoost = 100f;
@@ -16,18 +14,16 @@ public class WallRun : MonoBehaviour
 
 
     Vector3 v;
-    Quaternion rot;
 
     //------------
-    RaycastHit rayInfo;
-    CameraMouse camera;
+    new CameraMouse camera;
     //------------
 
     void Start()
-	{
-		Player = GetComponent<Rigidbody>();
+    {
+        Player = GetComponent<Rigidbody>();
         camera = transform.GetChild(0).GetComponent<CameraMouse>();
-	}
+    }
 
     void Update()
     {
@@ -35,36 +31,38 @@ public class WallRun : MonoBehaviour
 
         if (timeSwitch)
             temp = Time.time;
-        
-        if (PlayerNewMovement.isGrounded){
+
+        if (PlayerNewMovement.isGrounded)
+        {
             timeSwitch = true;
             isWallRunning = false;
         }
 
-        if (PlayerNewMovement.canGetVelocity){
+        if (PlayerNewMovement.canGetVelocity)
+        {
             timeSwitch = true;
             isWallRunning = false;
         }
 
         print("isWallRunning: " + isWallRunning);
-        
+
         if (isWallRunning)
         {
 
 
-            rot = transform.GetChild(0).localRotation;
+
             if (Input.GetKey(KeyCode.A))
-                camera.wallRunTilt-=0.7f;
+                camera.wallRunTilt -= 0.7f;
             if (Input.GetKey(KeyCode.D))
-                camera.wallRunTilt+=0.7f;
+                camera.wallRunTilt += 0.7f;
             camera.wallRunTilt = Mathf.Clamp(camera.wallRunTilt, -15f, 15f);
 
 
             if (Time.time < temp + timeToWallRun)
             {
                 //directie = rayInfo.point - transform.position;
-                
-               // Player.velocity -= Vector3.Reflect(rayInfo.point - transform.position, rayInfo.normal) * Time.deltaTime * suckPower; //sugere
+
+                // Player.velocity -= Vector3.Reflect(rayInfo.point - transform.position, rayInfo.normal) * Time.deltaTime * suckPower; //sugere
 
 
 
@@ -81,7 +79,7 @@ public class WallRun : MonoBehaviour
                 timeSwitch = false;
                 Player.velocity += v * Time.deltaTime * forwardBoost + transform.up * Time.deltaTime * upwardBoost;
             }
-            
+
             if (Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.A))
             {
                 Player.velocity -= transform.right * Time.deltaTime * jumpForce + transform.up * Time.deltaTime * upwardBoost;
@@ -94,26 +92,26 @@ public class WallRun : MonoBehaviour
                 Player.velocity += transform.right * Time.deltaTime * jumpForce + transform.up * Time.deltaTime * upwardBoost;
                 isWallRunning = false;
 
-                
+
             }
 
-            
+
 
         }
         else
         {
-            if (camera.wallRunTilt >1.1f)
+            if (camera.wallRunTilt > 1.1f)
                 camera.wallRunTilt--;
-            if (camera.wallRunTilt <-1.1f)
+            if (camera.wallRunTilt < -1.1f)
                 camera.wallRunTilt++;
         }
 
     }
 
-    void OnCollisionEnter (Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
 
-        if (collision.collider.tag == "Wall" && !PlayerNewMovement.isGrounded)
+        if (collision.collider.CompareTag("Wall") && !PlayerNewMovement.isGrounded)
         {
             isWallRunning = true;
         }
